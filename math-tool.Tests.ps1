@@ -7,6 +7,30 @@ BeforeAll {
 }
 
 Describe 'Get-Fibonacci' {
+    It 'does not change caller strict mode or error preference when dot-sourced' {
+        $callerState = & {
+            Set-StrictMode -Off
+            $ErrorActionPreference = 'Continue'
+
+            . $script:ImplementationPath
+
+            $uninitializedVariableThrows = $false
+            try {
+                $null = $uninitializedVariable
+            } catch {
+                $uninitializedVariableThrows = $true
+            }
+
+            [pscustomobject]@{
+                ErrorActionPreference = $ErrorActionPreference
+                UninitializedVariableThrows = $uninitializedVariableThrows
+            }
+        }
+
+        $callerState.ErrorActionPreference | Should -Be 'Continue'
+        $callerState.UninitializedVariableThrows | Should -BeFalse
+    }
+
     It 'returns only the numeric Fibonacci value for N=<N>' -TestCases @(
         @{ N = 0; Expected = 0 }
         @{ N = 1; Expected = 1 }

@@ -4,9 +4,6 @@ param(
     [int] $N
 )
 
-Set-StrictMode -Version Latest
-$ErrorActionPreference = 'Stop'
-
 function Get-Fibonacci {
     [CmdletBinding()]
     param(
@@ -14,6 +11,9 @@ function Get-Fibonacci {
         [ValidateRange(0, [int]::MaxValue)]
         [int] $N
     )
+
+    Set-StrictMode -Version Latest
+    $ErrorActionPreference = 'Stop'
 
     if ($N -eq 0) {
         return [System.Numerics.BigInteger]::Zero
@@ -32,6 +32,9 @@ function Get-Fibonacci {
 }
 
 if ($MyInvocation.InvocationName -ne '.') {
+    Set-StrictMode -Version Latest
+    $ErrorActionPreference = 'Stop'
+
     if (-not $PSBoundParameters.ContainsKey('N')) {
         throw 'N is required.'
     }
