@@ -1,5 +1,8 @@
 [CmdletBinding()]
 param(
+    [ValidateSet('fibonacci', 'factorial')]
+    [string] $Operation = 'fibonacci',
+
     [ValidateRange(0, [int]::MaxValue)]
     [int] $N
 )
@@ -31,6 +34,25 @@ function Get-Fibonacci {
     return $current
 }
 
+function Get-Factorial {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [ValidateRange(0, [int]::MaxValue)]
+        [int] $N
+    )
+
+    Set-StrictMode -Version Latest
+    $ErrorActionPreference = 'Stop'
+
+    $result = [System.Numerics.BigInteger]::One
+    for ($i = 2; $i -le $N; $i++) {
+        $result *= $i
+    }
+
+    return $result
+}
+
 if ($MyInvocation.InvocationName -ne '.') {
     Set-StrictMode -Version Latest
     $ErrorActionPreference = 'Stop'
@@ -39,6 +61,17 @@ if ($MyInvocation.InvocationName -ne '.') {
         throw 'N is required.'
     }
 
-    $value = Get-Fibonacci -N $N
-    "Fibonacci($N) = $value"
+    switch ($Operation) {
+        'fibonacci' {
+            $value = Get-Fibonacci -N $N
+            "Fibonacci($N) = $value"
+        }
+        'factorial' {
+            $value = Get-Factorial -N $N
+            "Factorial($N) = $value"
+        }
+        default {
+            throw "Unsupported operation '$Operation'."
+        }
+    }
 }
