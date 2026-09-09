@@ -189,8 +189,8 @@ Describe 'math-tool CLI' {
         $stdout = $stdoutLines -join [Environment]::NewLine
 
         $process.ExitCode | Should -Not -Be 0
-        $stdout | Should -Not -Match '^Fibonacci\(-1\) = '
-        $stdout | Should -Not -Match '^Factorial\(-1\) = '
+        $stdout | Should -Not -Match '(?m)^Fibonacci\(-1\) = '
+        $stdout | Should -Not -Match '(?m)^Factorial\(-1\) = '
     }
 
     It 'rejects unsupported operations without writing a result line' {
@@ -212,7 +212,7 @@ Describe 'math-tool CLI' {
         $stdout = $stdoutLines -join [Environment]::NewLine
 
         $process.ExitCode | Should -Not -Be 0
-        $stdout | Should -Not -Match '^Fibonacci\(5\) = '
-        $stdout | Should -Not -Match '^Factorial\(5\) = '
+        $stdout | Should -Not -Match '(?m)^Fibonacci\(5\) = '
+        $stdout | Should -Not -Match '(?m)^Factorial\(5\) = '
     }
 }

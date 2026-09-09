@@ -70,8 +70,5 @@ if ($MyInvocation.InvocationName -ne '.') {
             $value = Get-Factorial -N $N
             "Factorial($N) = $value"
         }
-        default {
-            throw "Unsupported operation '$Operation'."
-        }
     }
 }
