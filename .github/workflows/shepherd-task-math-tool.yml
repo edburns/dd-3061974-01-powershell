@@ -1,0 +1,22 @@
+name: Shepherd task math tool
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Shepherd task math tool
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pester 5.7.1
+        shell: pwsh
+        run: Install-Module Pester -RequiredVersion 5.7.1 -Scope CurrentUser -Force
+      - name: Test math tool
+        shell: pwsh
+        run: ./eng/test-math-tool.ps1
